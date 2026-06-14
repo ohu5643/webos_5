@@ -1,6 +1,13 @@
 import { speak } from "../services/TTSService.js";
 import { parseCommand } from "../services/CommandParser.js";
 
+import {
+
+    getRuntimeContext
+
+} from "../services/RuntimeContext.js";
+
+
 export default class AIAssistant {
 
     constructor(
