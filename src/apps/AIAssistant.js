@@ -211,6 +211,17 @@ export default class AIAssistant {
 
 
                 // ---------- Gemini API ----------
+               const runtime =
+
+                   await getRuntimeContext(
+
+                       this.fs,
+
+                       this.auth
+
+                   );
+
+
                 const response =
                     await fetch(
 
