@@ -1,4 +1,4 @@
-```js id="6r2s1v"
+   js id="6r2s1v"
 import { defineConfig } from 'vite'
 
 export default defineConfig({
@@ -6,4 +6,3 @@ export default defineConfig({
     ? '/webos_5/'
     : '/'
 })
-```
