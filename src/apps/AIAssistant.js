@@ -209,6 +209,41 @@ export default class AIAssistant {
 
                 }
 
+                if(
+    command.action ===
+    "list_files"
+){
+
+    const runtime =
+        await getRuntimeContext(
+            this.fs,
+            this.auth
+        );
+
+    const files =
+        runtime.files || [];
+
+    chat.innerHTML += `
+
+        <div>
+
+            <b>AI:</b>
+
+            현재 파일 목록:
+
+            <pre>
+
+${files.join("\n")}
+
+            </pre>
+
+        </div>
+
+    `;
+
+    return;
+                }
+
 
                 // ---------- Gemini API ----------
                const runtime =
