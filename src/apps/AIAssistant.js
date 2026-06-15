@@ -222,98 +222,130 @@ export default class AIAssistant {
                    );
 
 
-                const response =
-                    await fetch(
+                
+                try {
 
-                        "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=AIzaSyCr4sNcHYkF7Zbud2y-ey3ZXqwLTrMknUE",
+    const response =
+        await fetch(
+
+            "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=YOUR_API_KEY",
+
+            {
+
+                method:"POST",
+
+                headers:{
+                    "Content-Type":"application/json"
+                },
+
+                body:JSON.stringify({
+
+                    contents:[
 
                         {
 
-                            method:"POST",
+                            parts:[
 
-                            headers:{
+                                {
 
-                                "Content-Type":
-                                "application/json"
+                                    text:`
 
-                            },
-                            body: JSON.stringify({
+                                    너는 WebOS 내부 AI 비서이다.
 
-                                contents:[
+                                    현재 시스템 상태:
 
-                                    {
+                                    ${JSON.stringify(runtime)}
 
-                                        parts:[
+                                    사용자의 질문:
 
-                                            {
+                                    ${prompt}
 
-                                                text: `
+                                    규칙:
 
-                                                너는 WebOS 내부 AI 비서이다.
+                                    - WebOS 구조를 이해하고 답변해라.
+                                    - 현재 파일 목록을 참고할 수 있다.
+                                    - Terminal 명령어를 설명할 수 있다.
+                                    - 현재 OS 기능을 설명할 수 있다.
 
-                                                현재 시스템 상태:
+                                    `
 
-                                                ${JSON.stringify(runtime)}
+                                }
 
-                                                사용자의 질문:
-
-                                                ${prompt}
-
-                                                규칙:
-
-                                                - WebOS 구조를 이해하고 답변해라.
-                                                - 현재 파일 목록을 참고할 수 있다.
-                                                - Terminal 명령어를 설명할 수 있다.
-                                                - 현재 OS 기능을 설명할 수 있다.
-
-                                                `
-
-                                            }
-
-                                        ]
-
-                                    }
-
-                                ]
-
-                            })
-                          
-                                            
+                            ]
 
                         }
-                    );
 
+                    ]
 
-                const data =
-                    await response.json();
-
-
-                const answer =
-                    data
-                    .candidates[0]
-                    .content
-                    .parts[0]
-                    .text;
-
-
-                chat.innerHTML += `
-
-                    <div>
-
-                        <b>AI:</b>
-                        ${answer}
-
-                    </div>
-
-                `;
-
-
-                speak(answer);
+                })
 
             }
 
         );
 
+
+
+    if(!response.ok){
+
+        throw new Error(
+
+            `HTTP ${response.status}`
+
+        );
+
     }
+
+
+    const data =
+        await response.json();
+
+
+    const answer =
+        data?.candidates?.[0]
+        ?.content?.parts?.[0]
+        ?.text;
+
+
+    if(!answer){
+
+        throw new Error(
+
+            JSON.stringify(data)
+
+        );
+
+    }
+
+
+    chat.innerHTML += `
+
+        <div>
+
+            <b>AI:</b>
+            ${answer}
+
+        </div>
+
+    `;
+
+
+    speak(answer);
+
+}
+catch(err){
+
+    console.error(err);
+
+    chat.innerHTML += `
+
+        <div>
+
+            <b>AI:</b>
+            응답 생성 실패:
+            ${err.message}
+
+        </div>
+
+    `;
 
 }
