@@ -237,8 +237,7 @@ export default class AIAssistant {
                                 "application/json"
 
                             },
-
-                            body:JSON.stringify({
+                            body: JSON.stringify({
 
                                 contents:[
 
@@ -248,7 +247,26 @@ export default class AIAssistant {
 
                                             {
 
-                                                text:prompt
+                                                text: `
+
+                                                너는 WebOS 내부 AI 비서이다.
+
+                                                현재 시스템 상태:
+
+                                                ${JSON.stringify(runtime)}
+
+                                                사용자의 질문:
+
+                                                ${prompt}
+
+                                                규칙:
+
+                                                - WebOS 구조를 이해하고 답변해라.
+                                                - 현재 파일 목록을 참고할 수 있다.
+                                                - Terminal 명령어를 설명할 수 있다.
+                                                - 현재 OS 기능을 설명할 수 있다.
+
+                                                `
 
                                             }
 
@@ -259,6 +277,8 @@ export default class AIAssistant {
                                 ]
 
                             })
+                          
+                                            
 
                         }
                     );
